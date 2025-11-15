@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vectflix</title>
+<style>
+body, html {margin:0; padding:0; font-family:Arial,sans-serif; background:#000; color:#fff;}
+/* Welcome Screen */
+#welcome {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  background:#000;
+}
+#welcome video {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  top:0; left:0;
+}
+#welcome h1 {
+  position:relative;
+  z-index:11;
+  font-size:48px;
+  color:#e50914;
+  text-align:center;
+}
+header {
+  position:sticky;
+  top:0;
+  background:#141414;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:5;
+}
+header h1 {color:#e50914; margin:0;}
+#search {
+  padding:6px 10px;
+  border-radius:4px;
+  border:none;
+  width:200px;
+}
+.tabs {
+  display:flex;
+  flex-wrap:wrap;
+  background:#111;
+  padding:10px 20px;
+}
+.tab {
+  margin-right:15px;
+  padding:6px 12px;
+  cursor:pointer;
+  background:#222;
+  border-radius:4px;
+}
+.tab.active {background:#e50914;}
+.trailers {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(180px,1fr));
+  gap:15px;
+  padding:20px;
+}
+.card {
+  background:#111;
+  border-radius:6px;
+  cursor:pointer;
+  overflow:hidden;
+  text-align:center;
+}
+.card img {
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+.card p {
+  padding:8px;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<!-- Welcome Screen -->
+<div id="welcome">
+  <video src="https://www.youtube.com/embed/vhFPHYgILN0?autoplay=1&mute=1" autoplay muted loop></video>
+  <h1>Welcome to Vectflix</h1>
+</div>
+
+<header>
+  <h1>Vectflix</h1>
+  <input type="text" id="search" placeholder="Search trailers...">
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div id="trailers" class="trailers"></div>
+
+<script>
+let trailersData = [];
+let categories = ["All"];
+
+async function loadTrailers() {
+  try {
+    const response = await fetch("trailers.json");
+    const data = await response.json();
+    trailersData = data.categories;
+    trailersData.forEach(c => categories.push(c.name));
+    displayTabs();
+    displayTrailers("All");
+  } catch(e) {
+    document.getElementById("trailers").innerHTML =
+      "<p style='color:red;text-align:center;'>Failed to load trailers.json</p>";
+  }
+}
+
+function displayTabs() {
+  const tabsContainer = document.getElementById("tabs");
+  tabsContainer.innerHTML = '';
+  categories.forEach((cat, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (i === 0 ? ' active' : '');
+    tab.innerText = cat;
+    tab.onclick = () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      displayTrailers(cat);
+    };
+    tabsContainer.appendChild(tab);
+  });
+}
+
+function displayTrailers(categoryName) {
+  const container = document.getElementById("trailers");
+  container.innerHTML = '';
+  let list = [];
+  if (categoryName === "All") {
+    trailersData.forEach(c => list.push(...c.trailers));
+  } else {
+    const cat = trailersData.find(c => c.name === categoryName);
+    if (cat) list = cat.trailers;
+  }
+  list.forEach(trailer => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${trailer.thumbnail}" alt="${trailer.title}">
+      <p>${trailer.title}</p>
+    `;
+    card.onclick = () => window.open(trailer.url, "_blank");
+    container.appendChild(card);
+  });
+}
+
+// Search
+document.getElementById('search').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  let filtered = [];
+  trailersData.forEach(cat => {
+    filtered.push(...cat.trailers.filter(t =>
+      t.title.toLowerCase().includes(query)
+    ));
+  });
+  const container = document.getElementById("trailers");
+  container.innerHTML = '';
+  filtered.forEach(trailer => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${trailer.thumbnail}" alt="${trailer.title}">
+      <p>${trailer.title}</p>
+    `;
+    card.onclick = () => window.open(trailer.url, "_blank");
+    container.appendChild(card);
+  });
+});
+
+// Hide welcome
+setTimeout(() => {
+  document.getElementById("welcome").style.display = "none";
+}, 5000);
+
+loadTrailers();
+</script>
+</body>
+</html>
