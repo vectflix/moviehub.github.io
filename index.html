@@ -2,23 +2,140 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>VECTFLIX</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vectflix</title>
+  <style>
+    body, html { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #141414; color: white; }
+
+    /* Welcome screen */
+    #welcome {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fit=crop&w=1950&q=80') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center; flex-direction: column;
+      z-index: 10; text-align: center;
+    }
+    #welcome h1 { font-size: 60px; margin: 0; }
+    #welcome button {
+      margin-top: 20px; padding: 15px 30px; font-size: 20px;
+      background-color: #e50914; border: none; color: white; cursor: pointer; border-radius: 5px;
+    }
+    #welcome button:hover { background-color: #f40612; }
+
+    h1 { text-align: center; margin: 20px 0; }
+
+    /* Category filter */
+    #category-filter {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #1c1c1c;
+      color: white;
+    }
+
+    .trailers-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 40px 40px 40px;
+    }
+    .trailer-card {
+      background-color: #1c1c1c;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .trailer-card:hover { transform: scale(1.05); }
+    .trailer-card img { width: 100%; height: auto; display: block; }
+    .trailer-card h3 { margin: 10px; font-size: 18px; }
+    .trailer-card p { margin: 0 10px 10px; font-size: 14px; color: #bbb; }
+    .categories {
+      margin: 0 10px 10px;
+      font-size: 13px;
+      color: #ff9900;
+    }
+    .trailer-card a {
+      display: block; margin: 10px; padding: 8px;
+      text-align: center; background: #e50914; color: white;
+      text-decoration: none; border-radius: 5px;
+    }
+    .trailer-card a:hover { background: #f40612; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>VECTFLIX</h1>
-    <input id="search" type="text" placeholder="Search movies">
-  </header>
 
-  <main id="movies"></main>
+  <!-- Welcome screen -->
+  <div id="welcome">
+    <h1>Welcome to Vectflix</h1>
+    <button onclick="enterSite()">Enter Site</button>
+  </div>
 
-  <footer>
-    <p>© <span id="year"></span> VECTFLIX • 
-      <a href="https://www.instagram.com/vecteezy_1" target="_blank">Instagram</a>
-    </p>
-  </footer>
+  <h1>Vectflix Movie Trailers</h1>
 
-  <script src="script.js"></script>
+  <!-- Category filter dropdown -->
+  <select id="category-filter" onchange="filterByCategory()">
+    <option value="All">All Categories</option>
+  </select>
+
+  <div id="trailers-container" class="trailers-container"></div>
+
+  <script>
+    let allTrailers = [];
+
+    function enterSite() {
+      document.getElementById('welcome').style.display = 'none';
+    }
+
+    function filterByCategory() {
+      const selected = document.getElementById('category-filter').value;
+      const container = document.getElementById('trailers-container');
+      container.innerHTML = '';
+
+      const filtered = selected === "All" ? allTrailers : allTrailers.filter(trailer => trailer.category.includes(selected));
+      
+      filtered.forEach(trailer => {
+        const card = document.createElement('div');
+        card.className = 'trailer-card';
+        card.innerHTML = `
+          <img src="${trailer.thumbnail}" alt="${trailer.title}" />
+          <h3>${trailer.title}</h3>
+          <div class="categories">${trailer.category}</div>
+          <p>${trailer.description}</p>
+          <a href="${trailer.youtube}" target="_blank">Watch Trailer</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    fetch('trailers.json')
+      .then(response => response.json())
+      .then(data => {
+        allTrailers = data;
+
+        // Populate category filter
+        const categories = new Set();
+        data.forEach(trailer => {
+          trailer.category.split(',').forEach(cat => categories.add(cat.trim()));
+        });
+        const filter = document.getElementById('category-filter');
+        Array.from(categories).sort().forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          filter.appendChild(option);
+        });
+
+        // Display all trailers initially
+        filterByCategory();
+      })
+      .catch(err => {
+        console.error('Failed to load trailers.json:', err);
+        document.getElementById('trailers-container').innerHTML = '<p style="color:red;">Failed to load trailers.</p>';
+      });
+  </script>
+
 </body>
 </html>
