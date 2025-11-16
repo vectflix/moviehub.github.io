@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Top hero section -->
+  <!-- Top hero / landing section -->
   <header class="hero">
     <div class="overlay"></div>
 
@@ -23,7 +23,7 @@
         Ready to watch? Enter your email to create or restart your membership.
       </p>
 
-      <form class="email-form" onsubmit="return false;">
+      <form class="email-form">
         <input type="email" placeholder="Email address" required />
         <button type="submit">Get Started &gt;</button>
       </form>
@@ -32,72 +32,49 @@
 
   <!-- Main content -->
   <main>
-    <!-- Row 1 -->
+    <!-- Optional featured trailer -->
     <section class="row">
-      <h3>Trending Now</h3>
-      <div class="row-posters">
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Movie+1" alt="Movie 1" />
-          <p>Movie 1</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Movie+2" alt="Movie 2" />
-          <p>Movie 2</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Movie+3" alt="Movie 3" />
-          <p>Movie 3</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Movie+4" alt="Movie 4" />
-          <p>Movie 4</p>
-        </div>
+      <h3>Featured Trailer</h3>
+      <div class="video-wrapper">
+        <iframe 
+          src="https://www.youtube.com/embed/vhFPHYgILN0" 
+          title="Stranger Things 5 – First 5 Minutes"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
       </div>
     </section>
 
-    <!-- Row 2 -->
+    <!-- Series row (your big list of shows) -->
     <section class="row">
-      <h3>Popular on Vectflix</h3>
-      <div class="row-posters">
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Show+1" alt="Show 1" />
-          <p>Show 1</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Show+2" alt="Show 2" />
-          <p>Show 2</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Show+3" alt="Show 3" />
-          <p>Show 3</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=Show+4" alt="Show 4" />
-          <p>Show 4</p>
-        </div>
+      <h3>Series</h3>
+      <div class="row-posters" id="series-row">
+        <!-- Filled automatically by script.js -->
       </div>
     </section>
 
-    <!-- Row 3 -->
+    <!-- Sci-Fi & Action row -->
     <section class="row">
-      <h3>New Releases</h3>
-      <div class="row-posters">
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=New+1" alt="New 1" />
-          <p>New 1</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=New+2" alt="New 2" />
-          <p>New 2</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=New+3" alt="New 3" />
-          <p>New 3</p>
-        </div>
-        <div class="poster-card">
-          <img src="https://via.placeholder.com/300x170?text=New+4" alt="New 4" />
-          <p>New 4</p>
-        </div>
+      <h3>Sci-Fi &amp; Action</h3>
+      <div class="row-posters" id="scifi-row">
+        <!-- Filled automatically by script.js -->
+      </div>
+    </section>
+
+    <!-- Family & Animation row -->
+    <section class="row">
+      <h3>Family &amp; Animation</h3>
+      <div class="row-posters" id="family-row">
+        <!-- Filled automatically by script.js -->
+      </div>
+    </section>
+
+    <!-- Drama & Blockbusters row -->
+    <section class="row">
+      <h3>Drama &amp; Blockbusters</h3>
+      <div class="row-posters" id="drama-row">
+        <!-- Filled automatically by script.js -->
       </div>
     </section>
   </main>
