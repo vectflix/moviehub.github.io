@@ -1,95 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vectflix</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Quiz</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Top hero / landing section -->
-  <header class="hero">
-    <div class="overlay"></div>
+<div class="home-container">
+  <h1>🎵 Test Your Music Knowledge 🎵</h1>
 
-    <nav class="navbar">
-      <div class="logo">Vectflix</div>
-      <button class="sign-in-btn">Sign In</button>
-    </nav>
-
-    <div class="hero-content">
-      <h1>Unlimited movies, series and more.</h1>
-      <h2>Watch anywhere. Cancel anytime.</h2>
-      <p class="hero-text">
-        Ready to watch? Enter your email to create or restart your membership.
-      </p>
-
-      <!-- Email form added for fake submit -->
-      <form class="email-form">
-        <input type="email" placeholder="Enter your email" required />
-        <button type="submit">Get Started</button>
-      </form>
-    </div>
-  </header>
-
-  <!-- Search bar -->
-  <div class="search-container">
-    <input type="text" id="movie-search" placeholder="Search movies...">
+  <div class="quiz-type-buttons">
+    <button onclick="setQuizType('artist')">Artist Quiz</button>
+    <button onclick="setQuizType('song')">Song Quiz</button>
   </div>
 
-  <!-- Main content -->
-  <main>
-    <!-- Featured trailer -->
-    <section class="row">
-      <h3>Featured Trailer</h3>
-      <div class="video-wrapper">
-        <iframe 
-          src="https://www.youtube.com/embed/vhFPHYgILN0" 
-          title="Stranger Things 5 – First 5 Minutes"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </section>
+  <input type="text" id="input-name" placeholder="Enter singer or song name">
+  <button id="start-btn">Start Quiz</button>
+</div>
 
-    <!-- Series row -->
-    <section class="row">
-      <h3>Series</h3>
-      <div class="row-posters" id="series-row">
-        <!-- Filled automatically by script.js -->
-      </div>
-    </section>
+<footer>
+  <p>Follow me on Instagram: 
+    <a href="https://instagram.com/vecteezy_1" target="_blank">@vecteezy_1</a>
+  </p>
+</footer>
 
-    <!-- Sci-Fi & Action row -->
-    <section class="row">
-      <h3>Sci-Fi &amp; Action</h3>
-      <div class="row-posters" id="scifi-row">
-        <!-- Filled automatically by script.js -->
-      </div>
-    </section>
-
-    <!-- Family & Animation row -->
-    <section class="row">
-      <h3>Family &amp; Animation</h3>
-      <div class="row-posters" id="family-row">
-        <!-- Filled automatically by script.js -->
-      </div>
-    </section>
-
-    <!-- Drama & Blockbusters row -->
-    <section class="row">
-      <h3>Drama &amp; Blockbusters</h3>
-      <div class="row-posters" id="drama-row">
-        <!-- Filled automatically by script.js -->
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Vectflix | <a href="https://Instagram.com/vecteezy_1" target="_blank">Instagram</a></p>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
